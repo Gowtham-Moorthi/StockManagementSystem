@@ -55,6 +55,23 @@ public class Stock {
         this.prices = prices;
     }
 
+    public void adjustPrice(boolean isBuy, int quantity) {
+        if (prices == null || prices.isEmpty()) {
+            return;
+        }
+
+        PriceEntry latestEntry = prices.get(prices.size() - 1);
+        double newPrice;
+
+        if (isBuy) {
+            newPrice = latestEntry.getPrice() * (1 + 0.01 * quantity / 100);
+        } else {
+            newPrice = latestEntry.getPrice() * (1 - 0.01 * quantity / 100);
+        }
+
+        prices.add(new PriceEntry(latestEntry.getDate(), newPrice, latestEntry.getVolume()));
+    }
+
     public static class PriceEntry {
         private String date;
         private double price;
